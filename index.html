@@ -3,283 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infografica: Inflazione vs. Deflazione</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <!-- 
-    Source Material Analysis Plan:
-    Narrative: The infographic follows the podcast's flow: 1. Define Inflation with examples. 2. Define Deflation and its dangers. 3. Explain why moderate inflation is considered healthy. 4. Show the global/personal impact.
-    Data Synthesis: Data is synthesized to visually represent the concepts discussed by the students (Sara's purchasing power, Davide's gas prices, Maria's deflation cycle, Elena's 'moderate inflation', Simone's global view).
-    
-    Visualization Selection (No SVG/Mermaid JS Confirmed):
-    - Hook (Big Number): Goal: Inform. Method: HTML/CSS. Justification: Immediate high-impact stat.
-    - Purchasing Power: Goal: Compare. Method: Chart.js Donut Chart. Justification: Clearly shows loss of value as a proportion of a whole.
-    - Price Increases: Goal: Compare. Method: Chart.js Bar Chart. Justification: Effectively compares price changes across different consumer goods.
-    - Deflation Vicious Cycle: Goal: Organize. Method: HTML/CSS with Tailwind. Justification: Illustrates a process flow without using forbidden libraries. Uses styled divs and borders.
-    - Economic Scenarios: Goal: Change. Method: Chart.js Line Chart. Justification: Ideal for comparing trends (GDP growth) over time under different economic conditions.
-    - Consumer Worries: Goal: Compare. Method: Chart.js Horizontal Bar Chart. Justification: Excellent for comparing categorical survey data across different demographics.
-
-    Color Palette Chosen: Brilliant Blues (#00449E, #005CB9, #0076D7, #4CAEFE, #89D1FE)
-    -->
+    <title>Infografica: Ascensore Economico - Inflazione e Deflazione</title>
     <style>
+        /* Stili Generali */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F9FAFB;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 320px;
-            max-height: 400px;
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #4CAF50; /* Colore per i nomi dei concetti */
+            font-size: 1.5em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        h3::before {
+            content: '📊'; /* Icona prima del titolo */
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .section {
+            background-color: #e9eff5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .section p {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .negative {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .positive {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .banca-central {
+            background-color: #d1ecf1;
+            border-left: 5px solid #007bff;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .banca-central h3 {
+            color: #007bff;
+        }
+
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #777;
+            font-size: 0.9em;
         }
     </style>
 </head>
-<body class="text-gray-800">
+<body>
 
-    <main class="container mx-auto p-4 md:p-8">
+    <div class="container">
+        <h1>Ascensore Economico: Saliamo o Scendiamo?</h1>
+        <p style="text-align: center; font-style: italic; color: #555;">
+            Una guida semplice su Inflazione e Deflazione da Radio Raimondi
+        </p>
 
-        <header class="text-center mb-12">
-            <h1 class="text-4xl md:text-6xl font-black text-[#00449E] mb-2">Inflazione vs. Deflazione</h1>
-            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">Come questi fenomeni economici cambiano il valore dei tuoi soldi, spiegato in modo semplice.</p>
-        </header>
-
-        <section class="mb-12">
-            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 text-center">
-                <p class="text-xl font-semibold text-gray-700 mb-2">Se l'inflazione annua è al 5%, il potere d'acquisto di 1.000 €...</p>
-                <p class="text-6xl md:text-8xl font-black text-[#0076D7] tracking-tighter">...diventa 950 € in un solo anno.</p>
-            </div>
-        </section>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-[#00449E] mb-4">Cos'è l'Inflazione?</h2>
-                <p class="mb-4 text-gray-600">L'inflazione si verifica quando i prezzi aumentano e, di conseguenza, con la stessa quantità di denaro si possono acquistare meno beni. Il tuo **potere d'acquisto diminuisce**. Questo grafico mostra come il valore di 100 € si erode nel tempo con un'inflazione costante del 3%.</p>
-                <div class="chart-container">
-                    <canvas id="purchasingPowerChart"></canvas>
-                </div>
-                <p class="text-center text-sm text-gray-500 mt-2">Il grafico illustra la perdita di valore di un capitale iniziale.</p>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-[#00449E] mb-4">L'Impatto sui Prezzi Quotidiani</h2>
-                <p class="mb-4 text-gray-600">L'aumento del costo della benzina e della spesa. L'inflazione non colpisce tutti i prodotti allo stesso modo. Qui vediamo un esempio di come i prezzi di alcuni beni comuni potrebbero aumentare in un anno, rendendo la vita di tutti i giorni più costosa.</p>
-                <div class="chart-container">
-                    <canvas id="priceIncreaseChart"></canvas>
-                </div>
-                 <p class="text-center text-sm text-gray-500 mt-2">Variazione percentuale annua ipotetica per beni di consumo.</p>
-            </div>
-
-            <div class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-[#00449E] mb-4">Il Pericolo della Deflazione: Un Circolo Vizioso</h2>
-                <p class="mb-6 text-gray-600">La deflazione (il calo dei prezzi) può sembrare una buona notizia, ma è molto pericolosa. Può innescare una spirale negativa che danneggia gravemente l'economia. Le persone e le aziende rimandano gli acquisti e gli investimenti, sperando in prezzi ancora più bassi, e questo blocca la crescita.</p>
-                <div class="flex flex-col md:flex-row justify-center items-center gap-y-4 md:gap-x-2">
-                    <div class="text-center p-4 border-2 border-[#0076D7] rounded-lg bg-[#EBF5FF] w-48">
-                        <p class="font-bold">1. Prezzi in Calo</p>
-                        <p class="text-sm">I beni costano meno.</p>
-                    </div>
-                    <div class="text-[#0076D7] text-4xl font-bold transform -rotate-90 md:rotate-0">➔</div>
-                    <div class="text-center p-4 border-2 border-[#0076D7] rounded-lg bg-[#EBF5FF] w-48">
-                        <p class="font-bold">2. Spesa Rimandata</p>
-                        <p class="text-sm">I consumatori aspettano.</p>
-                    </div>
-                    <div class="text-[#0076D7] text-4xl font-bold transform -rotate-90 md:rotate-0">➔</div>
-                    <div class="text-center p-4 border-2 border-[#0076D7] rounded-lg bg-[#EBF5FF] w-48">
-                        <p class="font-bold">3. Meno Guadagni</p>
-                        <p class="text-sm">Le aziende incassano meno.</p>
-                    </div>
-                    <div class="text-[#0076D7] text-4xl font-bold transform -rotate-90 md:rotate-0">➔</div>
-                     <div class="text-center p-4 border-2 border-red-500 rounded-lg bg-red-100 w-48">
-                        <p class="font-bold text-red-700">4. Tagli e Licenziamenti</p>
-                        <p class="text-sm text-red-600">Le aziende tagliano i costi.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-[#00449E] mb-4">L'Inflazione "Sana"</h2>
-                <p class="mb-4 text-gray-600">Un'inflazione moderata (attorno al 2%) è considerata salutare. Stimola la spesa e gli investimenti, favorendo la crescita economica. Un'inflazione troppo alta o la deflazione, invece, creano instabilità e danneggiano l'economia. Il grafico confronta l'impatto di tre scenari sul Prodotto Interno Lordo (PIL).</p>
-                <div class="chart-container">
-                    <canvas id="economicGrowthChart"></canvas>
-                </div>
-                <p class="text-center text-sm text-gray-500 mt-2">Andamento del PIL ipotetico in tre diversi scenari economici.</p>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-[#00449E] mb-4">Le Preoccupazioni dei Consumatori</h2>
-                <p class="mb-4 text-gray-600">L'inflazione tocca tutti, ma le preoccupazioni cambiano con l'età. I più giovani potrebbero essere più preoccupati per l'impatto sui loro sogni futuri, mentre i più anziani per la protezione dei loro risparmi accumulati. Questo grafico mostra i risultati di un sondaggio ipotetico.</p>
-                <div class="chart-container">
-                    <canvas id="consumerWorriesChart"></canvas>
-                </div>
-                 <p class="text-center text-sm text-gray-500 mt-2">Principali preoccupazioni legate all'inflazione per fascia d'età.</p>
-            </div>
-
+        <div class="section">
+            <h3><span class="icon">📈</span> Inflazione: L'Ascensore Sale</h3>
+            <p><strong>Definizione:</strong> È l'<span class="negative">aumento generalizzato dei prezzi</span> di beni e servizi.</p>
+            <p><strong>In parole semplici:</strong> Con la stessa quantità di moneta, <span class="negative">in futuro potrai comprare meno beni e servizi.</span></p>
+            <p class="example">
+                <span class="highlight">Esempio:</span> I crackers che fino a due settimane fa costavano 1 euro, ora valgono 1,30 euro.
+            </p>
+            <p><strong>Perché aumentano i prezzi?</strong> In generale, se la <span class="positive">richiesta di beni e servizi aumenta.</span></p>
+            <p><strong>Chi colpisce di più?</strong> Soprattutto le <span class="negative">famiglie con meno reddito,</span> perché spendono principalmente per beni di prima necessità e non possono proteggersi. Riduce il potere d'acquisto della nostra moneta.</p>
         </div>
 
-        <footer class="text-center mt-12 pt-8 border-t border-gray-300">
-            <p class="text-gray-600">Questa infografica è basata sui concetti discussi nel podcast "Ascensor Económico".</p>
-            <p class="text-sm text-gray-500">I dati presentati sono a scopo illustrativo per spiegare i principi economici.</p>
+        <div class="section">
+            <h3><span class="icon">📉</span> Deflazione: L'Ascensore Scende</h3>
+            <p><strong>Perché potrebbe sembrare una buona cosa?</strong> Qualcuno potrebbe pensare che sia meglio che i prezzi scendano.</p>
+            <p><strong>La realtà:</strong> <span class="negative">Prezzi troppo bassi non sono un bene.</span></p>
+            <ul>
+                <li>Le famiglie <span class="negative">aspettano a comprare</span> (sperando che i prezzi scendano ulteriormente).</li>
+                <li>Le aziende, non vendendo, <span class="negative">devono ridurre le spese.</span></li>
+                <li>Questo può portare al <span class="negative">licenziamento dei dipendenti.</span></li>
+                <li>Se le famiglie perdono lo stipendio, <span class="negative">spenderanno ancora di meno,</span> creando un circolo vizioso.</li>
+            </ul>
+            <p><strong>Definizione:</strong> È la <span class="negative">diminuzione generalizzata dei prezzi.</span></p>
+        </div>
+
+        <div class="banca-central">
+            <h3><span class="icon">🦸</span> Il Nostro Supereroe: La Banca Centrale</h3>
+            <p>La Banca Centrale ha il compito di <span class="positive">mantenere la stabilità dei prezzi.</span></p>
+            <p><strong>Come agisce?</strong></p>
+            <ul>
+                <li>Utilizza principalmente lo <span class="highlight">strumento dei tassi di interesse.</span></li>
+                <li>Questi tassi vengono applicati alle operazioni di finanziamento o deposito con le <span class="highlight">Banche Commerciali.</span></li>
+                <li>Di conseguenza, le Banche Commerciali <span class="highlight">modificano i tassi applicati a famiglie e imprese,</span> influenzando così le loro decisioni di spesa.</li>
+                <li><span class="example">Esempio:</span> Se per le famiglie costa di più finanziarsi (tassi più alti), decideranno di ridurre le proprie spese, e così i prezzi scenderanno.</li>
+            </ul>
+            <p><strong>Per i paesi dell'Eurosistema:</strong></p>
+            <ul>
+                <li>La <span class="highlight">Banca Centrale Europea (BCE)</span> si occupa di mantenere la stabilità dei prezzi.</li>
+                <li>Punta a un obiettivo di <span class="positive">inflazione del 2% nel medio termine.</span></li>
+                <li>Le decisioni di politica monetaria relative all'euro sono prese dal <span class="highlight">Consiglio Direttivo della BCE,</span> al quale partecipano tutti i Governatori delle Banche Centrali dei paesi che hanno adottato l'Euro.</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Podcast "Ascensore Economico: Saliamo o Scendiamo?" di Radio Raimondi</p>
+            <p>Con Sofia, Ana, Diego, Arian, Ian, Isabella e Leonardo.</p>
         </footer>
+    </div>
 
-    </main>
-
-    <script>
-        function wrapText(label) {
-            const maxLength = 16;
-            if (typeof label === 'string' && label.length > maxLength) {
-                const words = label.split(' ');
-                const lines = [];
-                let currentLine = '';
-                words.forEach(word => {
-                    if ((currentLine + word).length > maxLength) {
-                        lines.push(currentLine.trim());
-                        currentLine = '';
-                    }
-                    currentLine += word + ' ';
-                });
-                lines.push(currentLine.trim());
-                return lines;
-            }
-            return label;
-        }
-        
-        const universalTooltipCallback = {
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        title: function(tooltipItems) {
-                            const item = tooltipItems[0];
-                            let label = item.chart.data.labels[item.dataIndex];
-                            if (Array.isArray(label)) {
-                              return label.join(' ');
-                            }
-                            return label;
-                        }
-                    }
-                },
-                legend: {
-                    labels: {
-                        font: {
-                            size: 12
-                        }
-                    }
-                }
-            },
-            maintainAspectRatio: false,
-            responsive: true
-        };
-
-        const purchasingPowerCtx = document.getElementById('purchasingPowerChart').getContext('2d');
-        new Chart(purchasingPowerCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Valore Residuo dopo 5 Anni', 'Valore Perso a Causa dell\'Inflazione'],
-                datasets: [{
-                    label: 'Potere d\'acquisto di 100 €',
-                    data: [86.26, 13.74],
-                    backgroundColor: ['#0076D7', '#89D1FE'],
-                    borderColor: '#FFFFFF',
-                    borderWidth: 2
-                }]
-            },
-            options: universalTooltipCallback
-        });
-
-        const priceIncreaseCtx = document.getElementById('priceIncreaseChart').getContext('2d');
-        new Chart(priceIncreaseCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Benzina', 'Affitto Mensile', 'Spesa Alimentare', 'Biglietto Cinema'],
-                datasets: [{
-                    label: 'Aumento Percentuale Annuo',
-                    data: [12, 5, 7, 4],
-                    backgroundColor: ['#005CB9', '#0076D7', '#4CAEFE', '#89D1FE'],
-                    borderRadius: 4
-                }]
-            },
-            options: { ...universalTooltipCallback, scales: { y: { beginAtZero: true, title: { display: true, text: '%' } } } }
-        });
-
-        const economicGrowthCtx = document.getElementById('economicGrowthChart').getContext('2d');
-        new Chart(economicGrowthCtx, {
-            type: 'line',
-            data: {
-                labels: ['Anno 1', 'Anno 2', 'Anno 3', 'Anno 4', 'Anno 5'],
-                datasets: [
-                    {
-                        label: 'Inflazione Moderata (2%)',
-                        data: [100, 102, 104.5, 107, 109],
-                        borderColor: '#0076D7',
-                        backgroundColor: 'rgba(0, 118, 215, 0.1)',
-                        fill: true,
-                        tension: 0.3
-                    },
-                    {
-                        label: 'Alta Inflazione (10%)',
-                        data: [100, 101, 98, 95, 93],
-                        borderColor: '#FEA84C',
-                        backgroundColor: 'rgba(254, 168, 76, 0.1)',
-                        fill: true,
-                        tension: 0.3
-                    },
-                    {
-                        label: 'Deflazione (-2%)',
-                        data: [100, 99, 97, 94, 92],
-                        borderColor: '#D70000',
-                        backgroundColor: 'rgba(215, 0, 0, 0.1)',
-                        fill: true,
-                        tension: 0.3
-                    }
-                ]
-            },
-            options: { ...universalTooltipCallback, scales: { y: { beginAtZero: false, title: { display: true, text: 'PIL (Baseline 100)' } } } }
-        });
-
-        const consumerWorriesCtx = document.getElementById('consumerWorriesChart').getContext('2d');
-        const originalLabels = ['Perdita potere d\'acquisto', 'Impatto sui risparmi per la pensione', 'Aumento costo degli affitti/mutui', 'Impossibilità di fare progetti futuri'];
-        const processedLabels = originalLabels.map(wrapText);
-        new Chart(consumerWorriesCtx, {
-            type: 'bar',
-            data: {
-                labels: processedLabels,
-                datasets: [
-                    {
-                        label: 'Età 18-34',
-                        data: [35, 15, 40, 50],
-                        backgroundColor: '#0076D7',
-                        borderRadius: 4
-                    },
-                    {
-                        label: 'Età 35-54',
-                        data: [45, 30, 30, 25],
-                        backgroundColor: '#4CAEFE',
-                        borderRadius: 4
-                    },
-                     {
-                        label: 'Età 55+',
-                        data: [55, 60, 20, 10],
-                        backgroundColor: '#00449E',
-                        borderRadius: 4
-                    }
-                ]
-            },
-            options: { 
-                ...universalTooltipCallback, 
-                indexAxis: 'y',
-                scales: { x: { beginAtZero: true, title: { display: true, text: 'Risposte Sondaggio (%)' } } }
-            }
-        });
-    </script>
 </body>
 </html>
